@@ -7,9 +7,9 @@ export interface TargetingParameters {
   userProperties?: IdentifyUserProperties;
   deviceId?: string;
   flag: EvaluationFlag;
-  sessionId?: string;
+  sessionId: string;
 }
 
 export interface Targeting {
-  evaluateTargeting(args: TargetingParameters): Record<string, EvaluationVariant>;
+  evaluateTargeting: (args: TargetingParameters) => Record<string, EvaluationVariant>;
 }
