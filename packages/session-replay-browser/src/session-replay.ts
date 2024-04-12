@@ -143,19 +143,24 @@ export class SessionReplay implements AmplitudeSessionReplay {
       this.loggerProvider.error('Session replay init has not been called, cannot evaluate targeting.');
       return;
     }
-    // TODO how to handle if there is an api error
-    const targetingConfig = await this.remoteConfigFetch?.getTargetingConfig(this.identifiers.sessionId);
 
-    if (targetingConfig && Object.keys(targetingConfig).length > 0) {
-      const targetingResult = evaluateTargeting({
-        flag: targetingConfig,
-        sessionId: this.identifiers.sessionId.toString(),
-        deviceId: this.getDeviceId(),
-        ...targetingParams,
-      });
-      this.sessionTargetingMatch = targetingResult.sr_targeting_config.key === 'on';
-    } else {
-      this.sessionTargetingMatch = true;
+    try {
+      const targetingConfig = await this.remoteConfigFetch?.getTargetingConfig(this.identifiers.sessionId);
+
+      if (targetingConfig && Object.keys(targetingConfig).length > 0) {
+        const targetingResult = evaluateTargeting({
+          flag: targetingConfig,
+          sessionId: this.identifiers.sessionId.toString(),
+          deviceId: this.getDeviceId(),
+          ...targetingParams,
+        });
+        this.sessionTargetingMatch =
+          this.sessionTargetingMatch === false && targetingResult.sr_targeting_config.key === 'on';
+      } else {
+        this.sessionTargetingMatch = true;
+      }
+    } catch (err) {
+      this.config?.loggerProvider.warn(err);
     }
   };
 
