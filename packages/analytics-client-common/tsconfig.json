@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*", "test/**/*"],
+  "include": ["src/**/*", "test/**/*", "../analytics-browser/test/utils/web-attribution-helpers.test.ts"],
   "compilerOptions": {
     "baseUrl": ".",
     "esModuleInterop": true,

@@ -27,13 +27,13 @@ import {
 import { convertProxyObjectToRealObject, isInstanceProxy } from './utils/snippet-helper';
 import { Context } from './plugins/context';
 import { useBrowserConfig, createTransport } from './config';
-import { WebAttribution } from '@amplitude/analytics-client-common';
 import { pageViewTrackingPlugin } from '@amplitude/plugin-page-view-tracking-browser';
 import { formInteractionTracking } from './plugins/form-interaction-tracking';
 import { fileDownloadTracking } from './plugins/file-download-tracking';
 import { DEFAULT_SESSION_END_EVENT, DEFAULT_SESSION_START_EVENT } from './constants';
 import { detNotify } from './det-notification';
 import { networkConnectivityCheckerPlugin } from './plugins/network-connectivity-checker';
+import { WebAttribution } from './utils/web-attribution';
 
 export class AmplitudeBrowser extends AmplitudeCore implements BrowserClient {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -281,8 +281,9 @@ export class AmplitudeBrowser extends AmplitudeCore implements BrowserClient {
   async process(event: Event) {
     const currentTime = Date.now();
     const isEventInNewSession = isNewSession(this.config.sessionTimeout, this.config.lastEventTime);
-    const shouldSetSessionIdOnNewCampaign = this.webAttribution && this.webAttribution.shouldSetSessionIdOnNewCampaign();
-    
+    const shouldSetSessionIdOnNewCampaign =
+      this.webAttribution && this.webAttribution.shouldSetSessionIdOnNewCampaign();
+
     if (
       event.event_type !== DEFAULT_SESSION_START_EVENT &&
       event.event_type !== DEFAULT_SESSION_END_EVENT &&

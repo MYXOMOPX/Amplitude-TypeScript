@@ -23,6 +23,8 @@ export const {
   setUserId,
   track,
 } = client;
+export { WebAttribution } from './utils/web-attribution';
+export { isNewCampaign } from './utils/web-attribution-helpers';
 export { runQueuedFunctions } from './utils/snippet-helper';
 export { Revenue, Identify } from '@amplitude/analytics-core';
 export * as Types from '@amplitude/analytics-types';

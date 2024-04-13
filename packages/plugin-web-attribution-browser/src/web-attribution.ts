@@ -1,8 +1,7 @@
-import { WebAttribution } from '@amplitude/analytics-client-common';
 import { BeforePlugin, BrowserClient, BrowserConfig, Event } from '@amplitude/analytics-types';
-import { isNewCampaign } from '@amplitude/analytics-client-common';
 import { CreateWebAttributionPlugin, Options } from './typings/web-attribution';
 import { isNewSession } from '@amplitude/analytics-client-common';
+import { WebAttribution, isNewCampaign } from '@amplitude/analytics-browser';
 
 export const webAttributionPlugin: CreateWebAttributionPlugin = function (options: Options = {}) {
   const plugin: BeforePlugin = {
